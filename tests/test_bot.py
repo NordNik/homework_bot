@@ -321,7 +321,9 @@ class TestHomework:
 
         func_name = 'check_response'
         response = homework.get_api_answer(current_timestamp)
+        print(response)
         status = homework.check_response(response)
+        print(status)
         assert status, (
             f'Убедитесь, что функция `{func_name} '
             'правильно работает '
