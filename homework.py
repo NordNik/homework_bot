@@ -1,5 +1,6 @@
 import os
 import time
+import datetime
 import requests
 from telegram import Bot
 from dotenv import load_dotenv
@@ -128,8 +129,9 @@ def send_message(bot, message):
 def main():
     """Join functions together."""
     bot = Bot(token=TELEGRAM_TOKEN)
+    current_timestamp = int(datetime.datetime(2022, 6, 26, 0, 0).timestamp())
     message = 'text'
-    current_timestamp = int(time.time())
+    # current_timestamp = int(time.time())
     check_tokens()
     while True:
         try:
