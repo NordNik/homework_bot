@@ -1,7 +1,6 @@
 import os
 import time
 import requests
-import datetime
 from telegram import Bot
 from dotenv import load_dotenv
 import logging
@@ -50,8 +49,12 @@ def get_api_answer(current_timestamp):
             but {response.status_code}')
         raise Not200ApiAnswer(f'Response status code is not 200,\
             but {response.status_code}')
-    # валидность .json() проверяется в check_response() на строке 66
-    return response.json()
+    try:
+        response = response.json()
+    except ValueError:
+        logging.error('Response is not a dictionary')
+        raise ValueError('Response is not a dictionary')
+    return response
 
 
 def check_response(response):
@@ -121,7 +124,6 @@ def main():
     message = 'text'
     bot = Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
-    current_timestamp = int(datetime.datetime(2022, 6, 26, 0, 0).timestamp())
     check_tokens()
     while True:
         try:
@@ -130,13 +132,11 @@ def main():
             current_timestamp = response.get('current_date')
             if len(homework) != 0:
                 message = parse_status(homework[0])
-                print(message)
                 send_message(bot, message)
         except Exception:
             error_text = 'Сбой в работе программы'
             if message != error_text:
                 message = error_text
-                print(message)
                 send_message(bot, message)
             continue
         finally:
