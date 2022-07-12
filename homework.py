@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+import datetime
 from telegram import Bot
 from dotenv import load_dotenv
 import logging
@@ -120,6 +121,7 @@ def main():
     message = 'text'
     bot = Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
+    current_timestamp = int(datetime.datetime(2022, 6, 26, 0, 0).timestamp())
     check_tokens()
     while True:
         try:
