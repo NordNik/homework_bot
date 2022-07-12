@@ -29,9 +29,6 @@ HOMEWORK_VERDICTS = {
 }
 
 
-bot = Bot(token=TELEGRAM_TOKEN)
-
-
 def check_tokens():
     """Check if all tokens are included."""
     ans = all([PRACTICUM_TOKEN and TELEGRAM_TOKEN and TELEGRAM_CHAT_ID])
@@ -52,9 +49,7 @@ def get_api_answer(current_timestamp):
             but {response.status_code}')
         raise Not200ApiAnswer(f'Response status code is not 200,\
             but {response.status_code}')
-    if not isinstance(response.json(), dict):
-        logging.error('Response.json() is not a dictionary')
-        raise ResponseNotType('Response.json() is not a dictionary')
+    # валидность .json() проверяется в check_response() на строке 66
     return response.json()
 
 
@@ -123,6 +118,7 @@ def main():
                 - %(lineno)s - %(message)s'),
         level=logging.DEBUG)
     message = 'text'
+    bot = Bot(token=TELEGRAM_TOKEN)
     current_timestamp = int(time.time())
     check_tokens()
     while True:
